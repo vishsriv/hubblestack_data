@@ -1,0 +1,10 @@
+win_secedit:
+  whitelist:
+    password_history_size:
+      data:
+        'Microsoft Windows Server 2012*':
+          - 'PasswordHistorySize':
+              tag: CIS-1.1.1
+              match_output: '23'
+              value_type: 'more'
+      description: (L1) Ensure 'enforce password history' is set to '24 or more password(s)'
