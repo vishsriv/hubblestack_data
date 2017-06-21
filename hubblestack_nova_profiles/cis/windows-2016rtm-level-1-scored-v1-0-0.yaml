@@ -2,7 +2,7 @@ win_secedit:
   whitelist:
     password_history_size:
       data:
-        'Microsoft Windows Server 2012*':
+        'Microsoft Windows Server 2016*':
           - 'PasswordHistorySize':
               tag: CIS-1.1.1
               match_output: '23'
