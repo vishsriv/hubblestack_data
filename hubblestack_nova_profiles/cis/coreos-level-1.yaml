@@ -206,16 +206,6 @@ sysctl:
           match_output: '0'
           tag: CIS-3.1.2
     description: Ensure packet redirect sending is disabled
-  enable_reverse_path_filtering:
-    data:
-      '*CoreOS*':
-      - net.ipv4.conf.all.rp_filter:
-          match_output: '1'
-          tag: CIS-3.2.7
-      - net.ipv4.conf.default.rp_filter:
-          match_output: '1'
-          tag: CIS-3.2.7
-    description: Ensure Reverse Path Filtering is enabled
   icmp_redirect_acceptance:
     data:
       '*CoreOS*':
@@ -250,26 +240,6 @@ sysctl:
           match_output: '1'
           tag: CIS-3.2.4
     description: Ensure suspicious packets are logged
-  ipv6_adverts:
-    data:
-      '*CoreOS*':
-      - net.ipv6.conf.all.accept_ra:
-          match_output: '0'
-          tag: CIS-3.3.1
-      - net.ipv6.conf.default.accept_ra:
-          match_output: '0'
-          tag: CIS-3.3.1
-    description: Ensure IPv6 router advertisements are not accepted
-  ipv6_redir:
-    data:
-      '*CoreOS*':
-      - net.ipv6.conf.all.accept_redirects:
-          match_output: '0'
-          tag: CIS-3.3.2
-      - net.ipv6.conf.default.accept_redirects:
-          match_output: '0'
-          tag: CIS-3.3.2
-    description: Ensure IPv6 redirects are not accepted
   secure_icmp_redirect_acceptance:
     data:
       '*CoreOS*':
@@ -636,6 +606,8 @@ misc:
       '*CoreOS*':
        tag: CIS-6.2.7
        function: check_all_users_home_directory
+       args:
+         - 1000
        description: Ensure all users' home directories exist
   all_users_home_directory_permission:
     data:
@@ -648,6 +620,8 @@ misc:
       '*CoreOS*':
        tag: CIS-6.2.9
        function: check_users_own_their_home
+       args:
+         - 1000
        description: Ensure users own their home directories
   users_dot_file_check:
     data:
@@ -667,10 +641,15 @@ misc:
        tag: CIS-6.2.12
        function: check_users_netrc_files
        description: Ensure no users have .netrc files
-  users_netrc_files_check:
+  check_groups_validity:
     data:
       '*CoreOS*':
-       tag: CIS-6.2.13
-       function: check_users_netrc_files_permissions
-       description: Ensure users' .netrc Files are not group or world accessible
-
+       tag: CIS-6.2.15
+       function: check_groups_validity
+       description: Ensure all groups in /etc/passwd exist in /etc/group
+  enable_reverse_path_filtering:
+    data:
+      '*CoreOS*':
+       tag: CIS-3.2.7
+       function: ensure_reverse_path_filtering
+       description: Ensure Reverse Path Filtering is enabled
