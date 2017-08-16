@@ -108,18 +108,6 @@ grep:
             pattern: ^HostbasedAuthentication
             tag: CIS-5.2.7
       description: Ensure SSH HostbasedAuthentication is disabled
-    sshd_idle_timeout:
-      data:
-        '*CoreOS*':
-        - /etc/ssh/sshd_config:
-            match_output: ClientAliveInterval 300
-            pattern: ^ClientAliveInterval
-            tag: CIS-5.2.13
-        - /etc/ssh/sshd_config:
-            match_output: ClientAliveCountMax 0
-            pattern: ^ClientAliveCountMax
-            tag: CIS-5.2.13
-      description: Ensure SSH Idle Timeout Interval is configured
     sshd_gracetime:
       data:
         '*CoreOS*':
@@ -616,4 +604,73 @@ misc:
         - /etc/systemd/system
         - 755
        description: Ensure that /etc/systemd/system directory permissions are set to 755 or more restrictive
+  journald_enabled:
+    data:
+      '*CoreOS*':
+       tag: CIS-7.7
+       function: check_service_status
+       args:
+         - systemd-journald
+         - enabled
+       description: Ensure systemd-journald service is enabled
+  sshd_idle_timeout:
+    data:
+      '*CoreOS*':
+       tag: CIS-5.2.13
+       function: check_ssh_timeout_config
+       description: Ensure SSH Idle Timeout Interval is configured
+  no_unowned_file:
+    data:
+      '*CoreOS*':
+       tag: CIS-6.1.11
+       function: check_unowned_files
+       description: Ensure no unowned files or directories exist
+  no_ungrouped_file:
+    data:
+      '*CoreOS*':
+       tag: CIS-6.1.12
+       function: check_ungrouped_files
+       description: Ensure no ungrouped files or directories exist
+  all_users_home_directory:
+    data:
+      '*CoreOS*':
+       tag: CIS-6.2.7
+       function: check_all_users_home_directory
+       description: Ensure all users' home directories exist
+  all_users_home_directory_permission:
+    data:
+      '*CoreOS*':
+       tag: CIS-6.2.8
+       function: check_users_home_directory_permissions
+       description: Ensure users' home directories permissions are 750 or more restrictive
+  all_users_own_their_home:
+    data:
+      '*CoreOS*':
+       tag: CIS-6.2.9
+       function: check_users_own_their_home
+       description: Ensure users own their home directories
+  users_dot_file_check:
+    data:
+      '*CoreOS*':
+       tag: CIS-6.2.10
+       function: check_users_dot_files
+       description: Ensure users' dot files are not group or world writable
+  users_forward_files_check:
+    data:
+      '*CoreOS*':
+       tag: CIS-6.2.11
+       function: check_users_forward_files
+       description: Ensure no users have .forward files
+  users_netrc_files_check:
+    data:
+      '*CoreOS*':
+       tag: CIS-6.2.12
+       function: check_users_netrc_files
+       description: Ensure no users have .netrc files
+  users_netrc_files_check:
+    data:
+      '*CoreOS*':
+       tag: CIS-6.2.13
+       function: check_users_netrc_files_permissions
+       description: Ensure users' .netrc Files are not group or world accessible
 
