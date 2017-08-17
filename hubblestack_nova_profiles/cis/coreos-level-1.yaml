@@ -235,13 +235,6 @@ sysctl:
           match_output: '1'
           tag: CIS-3.2.5
     description: Ensure broadcast ICMP requests are ignored
-  ip_forwarding:
-    data:
-      '*CoreOS*':
-      - net.ipv4.ip_forward:
-          match_output: '0'
-          tag: CIS-3.1.1
-    description: Ensure IP forwarding is disabled
   log_suspicious_packets:
     data:
       '*CoreOS*':
